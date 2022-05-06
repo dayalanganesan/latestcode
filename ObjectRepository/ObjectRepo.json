@@ -1,0 +1,5 @@
+{
+    "home": {
+        "signup": { "by": "xpath", "value": "//a[contains(text(),'Sign up')]" }
+    }
+}
