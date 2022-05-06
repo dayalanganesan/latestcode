@@ -1,5 +1,12 @@
 {
     "home": {
-        "signup": { "by": "xpath", "value": "//a[contains(text(),'Sign up')]" }
+        "signup": { "xpath": "//a[contains(text(),'Sign up')]" },
+        "btnLogin": { "xpath": "//a[contains(.,'Login')]" }
+    },
+    "loginScreen": {
+        "txtEmail": { "xpath": "//input[@name='email']" },
+        "txtPassword": { "xpath": "//input[@name='password']" },
+        "btnLogin": { "xpath": "//button[contains(.,'Log In')]" }
+
     }
 }
