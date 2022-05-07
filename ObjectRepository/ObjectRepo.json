@@ -8,5 +8,17 @@
         "txtPassword": { "xpath": "//input[@name='password']" },
         "btnLogin": { "xpath": "//button[contains(.,'Log In')]" }
 
+    },
+    "homeScreen": {
+        "ifrHomeScreen": { "xpath": "//iframe[contains(@id,'PegaGadget')]" },
+        "btnaddaproperty": { "xpath": "//*[text() ='+ Add a property']" },
+        "btnAddPropertyNewCustomer": { "xpath": "//img[contains(@name,'AddNewProperty_D_MyPropertyList')]" }
+    },
+    "addPropertyScreen": {
+        "txtPropertyAddress": { "xpath": "//*[@id='RULE_KEY']//input[contains(@name,'FullAddress') and @type='text']" },
+        "drpSaleType": { "name": "$PNewProperty$pPropertyDetails$pSaleType" },
+        "drpContractofSale": { "name": "$PNewProperty$pAreContractsExchanged" },
+        "btnGetStarted": { "xpath": "//button[contains(.,'Get Started')]" }
+
     }
 }
