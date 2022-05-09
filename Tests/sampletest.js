@@ -3,7 +3,8 @@ const { By } = require('selenium-webdriver');
 const assert = require('assert');
 const env = require('../env.json');
 const screenObject = require('../ObjectRepository/ObjectRepo.json');
-// Input capabilities
+const web = require('../Core/testingframework.js')
+    // Input capabilities
 const capabilities = {
     'device': 'iPhone 11',
     'realMobile': 'true',
@@ -14,6 +15,8 @@ const capabilities = {
 }
 
 async function runTestWithCaps() {
+    const web1 = new web.browser();
+
     let driver = new webdriver.Builder().withCapabilities({}).forBrowser("chrome").build();
     await driver.manage().window().maximize();
     try {
