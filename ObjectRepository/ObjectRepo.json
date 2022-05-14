@@ -11,7 +11,7 @@
     },
     "homeScreen": {
         "ifrHomeScreen": { "xpath": "//iframe[contains(@id,'PegaGadget')]" },
-        "btnaddaproperty": { "xpath": "//*[text() ='+ Add a property']" },
+        "btnaddaproperty": { "xpath": "//a[contains(text(),'Add a property')]" },
         "btnAddPropertyNewCustomer": { "xpath": "//img[contains(@name,'AddNewProperty_D_MyPropertyList')]" }
     },
     "addPropertyScreen": {
