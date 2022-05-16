@@ -18,6 +18,8 @@ const { ServiceBuilder } = require('selenium-webdriver/chrome');
 
 
 
+
+
 module.exports.browser = class browser {
     constructor() {
         this.log = logger.createLogger('././TestReports/logs/' + uuidv4() + '.log'); // logs to a file
@@ -101,21 +103,20 @@ module.exports.browser = class browser {
 
     }
 
-    async element(property) {
-        this.log.info('find ', property)
-        return this.driver.wait(
-            this.driver.until.elementIsVisible(
-                driver.findElement(property, env.elementwait))).then((element) => {
-            this.log.info('Element identified : ', property)
-            return element;
-        }, (err) => {
-            this.log.error('Error on identifying element : ', property)
-            return err;
-        })
-    }
+    // async element(property) {
+    //     return 
+    //         this.driver.wait(until.elementIsVisible(
+    //             this.driver.findElement(property), env.elementwait)).then((element) => {
+    //             this.log.info('Element identified : ', property)
+    //             return element;
+    //         }, (err) => {
+    //             this.log.error('Error on identifying element : ', property)
+    //             return err;
+    //         })
+    //     }
 
     async click(property, waittime = env.elementwait) {
-        return this.driver.wait(until.elementIsVisible(this.driver.findElement(property, waittime))).then(ele => {
+        return this.driver.wait(until.elementIsEnabled(this.driver.findElement(property), waittime)).then(ele => {
             this.log.info('Element identified : ', property);
             try {
                 ele.click();
@@ -131,7 +132,7 @@ module.exports.browser = class browser {
         })
     }
     async sendKeys(property, value, waittime = env.elementwait) {
-        return this.driver.wait(until.elementIsVisible(this.driver.findElement(property, waittime))).then(ele => {
+        return this.driver.wait(until.elementIsEnabled(this.driver.findElement(property), waittime)).then(ele => {
             this.log.info('Element identified : ', property);
             try {
                 ele.sendKeys(value);
@@ -156,35 +157,80 @@ module.exports.browser = class browser {
         });
     }
 
+    async switchFrame(identifier) {
 
-
-    SwitchDisplayedFrame = function(object) {
-        return new Promise(async(resolve, reject) => {
-
-            let iframe = await driver.findElements(object);
-            for (let index = 0; index < iframe.length; index++) {
-                const element = iframe[index];
-                element.isDisplayed().then(async(status) => {
-                    if (status) {
-                        console.logstatus, (new Date())
-                        await driver.switchTo().frame(element);
-                        resolve(status)
+        try {
+            let count = 0;
+            while (count = 0) {
+                let frame = await this.driver.findElements(identifier);
+                count = frame.count;
+                this.log.info("number of frames identified :", count);
+                if (count > 0) {
+                    for (let index = 0; index < frame.length; index++) {
+                        const element = frame[index];
+                        if (element.isDisplayed) {
+                            this.log.info("displayed frame :", await element.getAttribute("name"));
+                            this.driver.switchTo().frame(element);
+                            this.log.info("Switched to frame");
+                            break;
+                        }
                     }
-                }).catch(err => { console.log(err) });
+                }
+
             }
-            reject(false);
-        });
+        } catch (e) {
+            this.log.error("error while switching frame", e);
+        }
     }
 }
 
+//     SwitchDisplayedFrame = function(object) {
+//         return new Promise(async(resolve, reject) => {
 
-module.exports.dvr = class dvr extends WebElementPromise {
-    constructor() {
+//             let iframe = await driver.findElements(object);
+//             for (let index = 0; index < iframe.length; index++) {
+//                 const element = iframe[index];
+//                 element.isDisplayed().then(async(status) => {
+//                     if (status) {
+//                         console.logstatus, (new Date())
+//                         await driver.switchTo().frame(element);
+//                         resolve(status)
+//                     }
+//                 }).catch(err => { console.log(err) });
+//             }
+//             reject(false);
+//         });
+//     }
 
-    }
+//     test() {
+//         return
+//     }
+// }
 
-    static jalabula(params) {
 
-    }
+// module.exports.bdd = class bdd {
+//     constructor() {
+//         this.log = logger.createLogger('././TestReports/logs/' + uuidv4() + '.log'); // logs to a file
+//         this.log.info('Started....');
+//     }
+//     Given(...args) {
+//         this.log.info(args);
+//         return new browserelement(this.log, null, null)
+//     }
+// };
+// class browserelement {
+//     constructor(logger, driver, element) {
+//         this.log = logger;
+//         this.driver = driver;
+//         this.parentelement = element;
+//     }
+//     then(...args) {
+//         this.log.info(args);
+//         return new browserelement(this.log, null, null)
+//     }
+//     when(...args) {
+//         this.log.info(args);
+//         return new browserelement(this.log, null, null)
+//     }
 
-}
+// }

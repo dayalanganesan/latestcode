@@ -1,22 +1,11 @@
-
-
-// interface IEmployee {
-//     empCode: number;
-//     empName: string;
-//     getSalary: (number) => number; // arrow function
-//     getManagerName(number): string; 
-//     Do: Do;
-// }
-
-// interface Do {
-// click: void;
- 
-// }
-// export enum perform {
-//     Click = "#click",
-//     GetText = "#gettext",
-// }
-
+"use strict";
+exports.__esModule = true;
+exports.perform = void 0;
+var perform;
+(function (perform) {
+    perform["Click"] = "#click";
+    perform["GetText"] = "#gettext";
+})(perform = exports.perform || (exports.perform = {}));
 // export class objr {
 //     homesceen: { xpath: string; };
 //     constructor(){
@@ -29,17 +18,14 @@
 //         }
 //     }
 // }
-
 // declare global {
 //     interface String {
 //         add(length : number) : string;
 //     }
 // }
-
 // interface String {
 //     add(...strings: string[]): string;
 //   }
-  
 //   String.prototype.add = function (...strings) {
 //     return this + strings.join('');
 //   };

@@ -5,6 +5,8 @@ const env = require('../env.json');
 const screenObject = require('../ObjectRepository/ObjectRepo.json');
 const web = require('../Core/testingframework.js');
 const chrome = require('selenium-webdriver/chrome');
+const { BDD } = require('../Core/SeleniumDriver');
+const { perform, condition } = require('../Core/SeleniumDriver');
 
 // Input capabilities
 const capabilities = {
@@ -44,7 +46,7 @@ async function runTestWithCaps() {
             console.log("Error:", e.message)
         }
     }
-
+    driver.w
     await driver.sleep(4000);
     await driver.wait(webdriver.until.elementIsEnabled(driver.findElement(screenObject.homeScreen.ifrHomeScreen, 20000)))
     await driver.switchTo().frame(driver.findElement(screenObject.homeScreen.ifrHomeScreen));
@@ -64,16 +66,27 @@ async function runTestWithCaps() {
     await driver.quit();
 }
 
+
 async function frameworkCode() {
     var driver = new web.browser();
     driver.browserOptions(["--incognito", "--disable-extensions"])
     await driver.init();
     await driver.maximize();
     await driver.navigate(env.url);
-    await driver.click(screenObject.home.btnLogin, 30000);
-    await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username, 30000);
-    await driver.sendKeys(screenObject.loginScreen.txtPassword, env.password, 30000);
-    driver.click(screenObject.loginScreen.btnLogin);
+    await driver.click(screenObject.home.btnLogin, 35000);
+    await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
+    await driver.sendKeys(screenObject.loginScreen.txtPassword, env.password);
+    await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
+    await driver.click(screenObject.loginScreen.btnLogin);
+    await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen);
+
+
+    // var bdd = new BDD()
+    // bdd.Given(screenObject.home.btnLogin, perform.Navigate, condition.WaitTillPageLoads)
+    //     .then("Just a test")
+    //     .then("validating")
+    //     .then(screenObject.home.btnLogin, perform.Click)
+
     //await driver.quit();
 }
 frameworkCode();
