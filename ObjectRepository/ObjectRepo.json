@@ -10,11 +10,12 @@
 
     },
     "homeScreen": {
-        "ifrHomeScreen": { "xpath": "//iframe[contains(@id,'PegaGadget')]" },
+        "ifrHomeScreen": { "xpath": "//iframe[@id='PegaGadget0Ifr']" },
         "btnaddaproperty": { "xpath": "//a[contains(text(),'Add a property')]" },
         "btnAddPropertyNewCustomer": { "xpath": "//img[contains(@name,'AddNewProperty_D_MyPropertyList')]" }
     },
     "addPropertyScreen": {
+        "ifrAddProperty": { "xpath": "//iframe[@id='PegaGadget1Ifr']" },
         "txtPropertyAddress": { "xpath": "//*[@id='RULE_KEY']//input[contains(@name,'FullAddress') and @type='text']" },
         "drpSaleType": { "name": "$PNewProperty$pPropertyDetails$pSaleType" },
         "drpContractofSale": { "name": "$PNewProperty$pAreContractsExchanged" },

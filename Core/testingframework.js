@@ -115,8 +115,9 @@ module.exports.browser = class browser {
     //         })
     //     }
 
-    async click(property, waittime = env.elementwait) {
-        return this.driver.wait(until.elementIsEnabled(this.driver.findElement(property), waittime)).then(ele => {
+    async click(property, waittime = 0) {
+        waittime = waittime == 0 ? env.elementwait : waittime;
+        return this.driver.wait(until.elementLocated(property, waittime)).then(ele => {
             this.log.info('Element identified : ', property);
             try {
                 ele.click();
@@ -156,22 +157,33 @@ module.exports.browser = class browser {
             return false;
         });
     }
-
+    async switchDefault() {
+        await this.driver.switchTo().defaultContent();
+    }
     async switchFrame(identifier) {
-
+        this.log.info("Switch frame called..");
         try {
             let count = 0;
-            while (count = 0) {
+            let counter = 0;
+            while (count = 0 || counter < 100) {
+                this.log.info("Frame identification started");
                 let frame = await this.driver.findElements(identifier);
-                count = frame.count;
-                this.log.info("number of frames identified :", count);
-                if (count > 0) {
+                this.log.info(frame.length);
+                counter++;
+                if (frame.length > 0) {
+                    this.log.info("number of frames identified :", frame.length);
                     for (let index = 0; index < frame.length; index++) {
                         const element = frame[index];
-                        if (element.isDisplayed) {
+                        let isdisplayed = await element.isDisplayed();
+                        let isEnabled = await element.isEnabled();
+                        this.log.info(isEnabled, isdisplayed);
+
+                        if (isEnabled) {
                             this.log.info("displayed frame :", await element.getAttribute("name"));
                             this.driver.switchTo().frame(element);
                             this.log.info("Switched to frame");
+                            count = 1;
+                            counter = 101;
                             break;
                         }
                     }
@@ -184,6 +196,12 @@ module.exports.browser = class browser {
     }
 }
 
+class webelementextension {
+    constructor(driver) {
+        this.driver = driver;
+    }
+
+}
 //     SwitchDisplayedFrame = function(object) {
 //         return new Promise(async(resolve, reject) => {
 

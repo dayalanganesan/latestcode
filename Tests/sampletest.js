@@ -79,6 +79,12 @@ async function frameworkCode() {
     await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.click(screenObject.loginScreen.btnLogin);
     await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen);
+    await driver.click(screenObject.homeScreen.btnaddaproperty, 50000);
+    await driver.switchDefault();
+    await driver.switchFrame(screenObject.addPropertyScreen.ifrAddProperty);
+    await driver.sendKeys(screenObject.addPropertyScreen.txtPropertyAddress, "107 Esplanade , Rockingham WA 6168");
+
+
 
 
     // var bdd = new BDD()
