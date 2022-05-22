@@ -78,11 +78,12 @@ async function frameworkCode() {
     await driver.sendKeys(screenObject.loginScreen.txtPassword, env.password);
     await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.click(screenObject.loginScreen.btnLogin);
-    await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen);
+    await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
     await driver.click(screenObject.homeScreen.btnaddaproperty, 50000);
     await driver.switchDefault();
-    await driver.switchFrame(screenObject.addPropertyScreen.ifrAddProperty);
-    await driver.sendKeys(screenObject.addPropertyScreen.txtPropertyAddress, "107 Esplanade , Rockingham WA 6168");
+    await (await driver.switchFrame(screenObject.addPropertyScreen.ifrAddProperty)).wait(5);
+    await (await driver.sendKeys(screenObject.addPropertyScreen.txtPropertyAddress, "107 Esplanade , Rockingham WA 6168")).wait(1)
+
 
 
 

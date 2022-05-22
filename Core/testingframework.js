@@ -15,14 +15,18 @@ const edge = require('selenium-webdriver/edge');
 const ie = require('selenium-webdriver/ie');
 const { Timeouts } = require('selenium-webdriver/lib/capabilities');
 const { ServiceBuilder } = require('selenium-webdriver/chrome');
-
+const fs = require('fs');
 
 
 
 
 module.exports.browser = class browser {
     constructor() {
-        this.log = logger.createLogger('././TestReports/logs/' + uuidv4() + '.log'); // logs to a file
+        let logid = uuidv4();
+        this.logfolderPath = '././TestReports/logs/' + logid;
+        if (!fs.existsSync(this.logfolderPath))
+            fs.mkdirSync(this.logfolderPath);
+        this.log = logger.createLogger(this.logfolderPath + '/' + logid + '.log'); // logs to a file
         this.log.info('Started....');
 
     }
@@ -102,24 +106,19 @@ module.exports.browser = class browser {
         }
 
     }
-
-    // async element(property) {
-    //     return 
-    //         this.driver.wait(until.elementIsVisible(
-    //             this.driver.findElement(property), env.elementwait)).then((element) => {
-    //             this.log.info('Element identified : ', property)
-    //             return element;
-    //         }, (err) => {
-    //             this.log.error('Error on identifying element : ', property)
-    //             return err;
-    //         })
-    //     }
-
+    screenshot() {
+        this.driver.takeScreenshot().then(obj => {
+            fs.writeFile(this.logfolderPath + '/' + uuidv4() + '.png', obj, 'base64');
+        }).catch(err => {
+            this.log.info("error taking screenshot\n" + err);
+        })
+    }
     async click(property, waittime = 0) {
         waittime = waittime == 0 ? env.elementwait : waittime;
         return this.driver.wait(until.elementLocated(property, waittime)).then(ele => {
             this.log.info('Element identified : ', property);
             try {
+                this.screenshot();
                 ele.click();
                 return ele;
             } catch (e) {
@@ -137,17 +136,27 @@ module.exports.browser = class browser {
             this.log.info('Element identified : ', property);
             try {
                 ele.sendKeys(value);
-                return ele;
+                this.screenshot();
             } catch (e) {
                 this.log.error('Error on typing element : ', property, e)
-                return e;
             }
-
+            return new websupport(this.driver, this.log);
         }).catch(err => {
             this.log.error('Error on identifying element : ', property, err)
-            return err;
-        })
+            return new websupport(this.driver, this.log);
+        });
     }
+
+    async find(property, value, waittime = env.elementwait) {
+        return this.driver.wait(until.elementIsEnabled(this.driver.findElement(property), waittime)).then(ele => {
+            this.log.info('Element identified : ', property);
+            return new webelement(this.driver, ele);
+        }).catch(err => {
+            this.log.error('Error on identifying element : ', property, err)
+            return new webelement(this.driver, null);
+        });
+    }
+
     async quit() {
         return this.driver.quit().then(() => {
             this.log.info('Driver closed successfully')
@@ -159,6 +168,7 @@ module.exports.browser = class browser {
     }
     async switchDefault() {
         await this.driver.switchTo().defaultContent();
+        return new websupport(this.driver, this.log);
     }
     async switchFrame(identifier) {
         this.log.info("Switch frame called..");
@@ -184,21 +194,77 @@ module.exports.browser = class browser {
                             this.log.info("Switched to frame");
                             count = 1;
                             counter = 101;
-                            break;
+                            return new websupport(this.driver, this.log);
+
                         }
                     }
                 }
 
             }
+            return new websupport(this.driver);
         } catch (e) {
             this.log.error("error while switching frame", e);
+
         }
     }
 }
 
-class webelementextension {
-    constructor(driver) {
+class webelement {
+    constructor(driver, el) {
         this.driver = driver;
+        this.parentElement = el;
+    }
+    async wait(second = 1) {
+        await this.driver.sleep(second * 1000);
+    }
+    async find(property) {
+        return this.driver.wait(until.elementIsEnabled(this.parentElement.findElement(property), waittime)).then(ele => {
+            this.log.info('Element identified : ', property);
+            return new webelement(this.driver, ele);
+        }).catch(err => {
+            this.log.error('Error on identifying element : ', property, err)
+            return new webelement(this.driver, null);
+        });
+    }
+    async click() {
+        await this.parentElement.click();
+    }
+    async sendKeys(value) {
+        await this.parentElement.sendKeys(value);
+    }
+
+}
+class websupport {
+    constructor(driver, log) {
+        this.driver = driver;
+        this.log = log
+    }
+    async wait(second = 1) {
+        await this.driver.sleep(second * 1000);
+    }
+    customwait(second = 1) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this.log.info('time out called');
+                resolve(true)
+            }, second * 1000);
+        });
+    }
+    readyStateWait(seconds = 60) {
+        console.log(new Date(), 'ready');
+        return new Promise((resolve, reject) => {
+            let timer = setInterval(() => {
+                this.driver.executeScript("return document.readyState").then(status => {
+                    console.log(new Date(), 'ready', status);
+
+                    if (status == 'complete') {
+                        clearInterval(timer);
+                        resolve(status)
+                    }
+                });
+            }, seconds * 1000);
+        })
+
     }
 
 }
