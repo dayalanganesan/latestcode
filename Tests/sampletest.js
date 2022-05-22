@@ -78,6 +78,7 @@ async function frameworkCode() {
     await driver.sendKeys(screenObject.loginScreen.txtPassword, env.password);
     await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.click(screenObject.loginScreen.btnLogin);
+    await driver.sleep(30000);
     await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
     await driver.click(screenObject.homeScreen.btnaddaproperty, 50000);
     await driver.switchDefault();

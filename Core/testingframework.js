@@ -207,6 +207,9 @@ module.exports.browser = class browser {
 
         }
     }
+    async sleep(ms) {
+        await this.driver.sleep(ms);
+    }
 }
 
 class webelement {
