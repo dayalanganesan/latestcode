@@ -21,5 +21,23 @@
         "drpContractofSale": { "name": "$PNewProperty$pAreContractsExchanged" },
         "btnGetStarted": { "xpath": "//button[contains(.,'Get Started')]" }
 
+    },
+
+    "homeMenuList": {
+        "homeMenu": { "xpath": "//div[text()='Home']" },
+        "guidanceMenu": { "xpath": "//div[text()='Guidance']" },
+        "profileMenu": { "xpath": "//div[text()='Profile']" },
+        "logoffMenu": { "xpath": "//div[text()='Log off']" },
+        "activityTab": { "xpath": "//div[@class='header']/h1[text()='Activity']" }
+               
+    },
+
+    "activityTabList": {
+        "activityTab": { "xpath": "//div[@class='header']/h1[text()='Activity']" },
+        "teamTab": { "xpath": "//div[@class='header']/h1[text()='Team']" },
+        "documentsTab": { "xpath": "//*[@id='headerlabel2131']" },
+        "guidancePageTitle": { "xpath": "//div[text()='Get Support']" },
+        "profilePageTitle": { "xpath": "//div[text()='Profile']" }    
     }
 }
+

@@ -107,11 +107,21 @@ module.exports.browser = class browser {
 
     }
     screenshot() {
-        this.driver.takeScreenshot().then(obj => {
-            fs.writeFile(this.logfolderPath + '/' + uuidv4() + '.png', obj, 'base64');
-        }).catch(err => {
-            this.log.info("error taking screenshot\n" + err);
-        })
+        // this.driver.takeScreenshot().then(obj => {
+        //     fs.writeFile(this.logfolderPath + '/' + uuidv4() + '.png', obj, 'base64');
+        // }).catch(err => {
+        //     this.log.info("error taking screenshot\n" + err);
+        // })
+
+        this.driver.takeScreenshot().then(
+
+            (image)=>{
+        
+                fs.writeFileSync(this.logfolderPath + '/' + uuidv4() + '.png',image,'base64');
+        
+            }
+        
+        );
     }
     async click(property, waittime = 0) {
         waittime = waittime == 0 ? env.elementwait : waittime;
@@ -120,7 +130,7 @@ module.exports.browser = class browser {
             try {
                 this.screenshot();
                 ele.click();
-                return ele;
+                return new websupport(this.driver,this.log)
             } catch (e) {
                 this.log.error('Error on clicking element : ', property, e)
                 return e;

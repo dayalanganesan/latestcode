@@ -73,18 +73,31 @@ async function frameworkCode() {
     await driver.init();
     await driver.maximize();
     await driver.navigate(env.url);
-    await driver.click(screenObject.home.btnLogin, 35000);
-    await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
+    await driver.click(screenObject.home.btnLogin, 15000);
+    await driver.sleep(5000);
+    //await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.sendKeys(screenObject.loginScreen.txtPassword, env.password);
     await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.click(screenObject.loginScreen.btnLogin);
-    await driver.sleep(30000);
+    await driver.sleep(5000);
     await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
-    await driver.click(screenObject.homeScreen.btnaddaproperty, 50000);
+    await driver.click(screenObject.activityTabList.teamTab);
+    await driver.sleep(8000);
+    await driver.click(screenObject.activityTabList.documentsTab);
     await driver.switchDefault();
-    await (await driver.switchFrame(screenObject.addPropertyScreen.ifrAddProperty)).wait(5);
-    await (await driver.sendKeys(screenObject.addPropertyScreen.txtPropertyAddress, "107 Esplanade , Rockingham WA 6168")).wait(1)
+    await driver.click(screenObject.homeMenuList.guidanceMenu);
+    await driver.click(screenObject.homeMenuList.profileMenu);
+    await driver.click(screenObject.homeMenuList.logoffMenu);
+    driver.quit;
 
+   // await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
+
+    //await driver.click(screenObject.homeScreen.btnaddaproperty, 50000);
+    //await driver.switchDefault();
+    //await (await driver.switchFrame(screenObject.addPropertyScreen.ifrAddProperty)).wait(5);
+    //await (await driver.sendKeys(screenObject.addPropertyScreen.txtPropertyAddress, "107 Esplanade , Rockingham WA 6168")).wait(1)
+ 
+  
 
 
 
