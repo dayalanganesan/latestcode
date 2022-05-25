@@ -80,15 +80,15 @@ async function frameworkCode() {
     await driver.sendKeys(screenObject.loginScreen.txtEmail, env.username);
     await driver.click(screenObject.loginScreen.btnLogin);
     await driver.sleep(5000);
-    await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
+    await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(5)
     await driver.click(screenObject.activityTabList.teamTab);
     await driver.sleep(8000);
-    await driver.click(screenObject.activityTabList.documentsTab);
+    //await driver.click(screenObject.activityTabList.documentsTab);
     await driver.switchDefault();
     await driver.click(screenObject.homeMenuList.guidanceMenu);
-    await driver.click(screenObject.homeMenuList.profileMenu);
-    await driver.click(screenObject.homeMenuList.logoffMenu);
-    driver.quit;
+   // await driver.click(screenObject.homeMenuList.profileMenu);
+    //await driver.click(screenObject.homeMenuList.logoffMenu);
+    driver.quit();
 
    // await (await driver.switchFrame(screenObject.homeScreen.ifrHomeScreen)).readyStateWait(30)
 

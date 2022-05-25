@@ -35,7 +35,7 @@
     "activityTabList": {
         "activityTab": { "xpath": "//div[@class='header']/h1[text()='Activity']" },
         "teamTab": { "xpath": "//div[@class='header']/h1[text()='Team']" },
-        "documentsTab": { "xpath": "//*[@id='headerlabel2131']" },
+        "documentsTab": { "xpath": "//div[@class='header']/h1[text()='Documents']" },
         "guidancePageTitle": { "xpath": "//div[text()='Get Support']" },
         "profilePageTitle": { "xpath": "//div[text()='Profile']" }    
     }

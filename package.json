@@ -4,11 +4,11 @@
   "description": "Steps to kick start\r Install Node Js",
   "main": "index.js",
   "dependencies": {
+    "async": "^3.2.3",
     "logger": "0.0.1",
     "selenium-webdriver": "^4.1.2",
     "uuid": "^8.3.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
